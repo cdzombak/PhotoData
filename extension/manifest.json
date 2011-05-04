@@ -1,0 +1,28 @@
+{
+  "name": "PhotoData",
+  "version": "0.1.1",
+  "description": "Sets captions, titles, or tags for all photos in a Flickr or Facebook upload, quickly and easily.",
+  "page_action": {
+    "default_icon":  "photos.png",
+	"default_title": "Set Photo Data",
+	"default_popup": "menu.html"
+  },
+  "background_page": "background.html",
+  "homepage_url": "http://github.com/cdzombak/PhotoData",
+  "permissions": [
+	"tabs",
+	"http://*.flickr.com/*",
+	"http://flickr.com/*",
+	"https://*.flickr.com/*",
+	"https://flickr.com/*",
+	"http://*.facebook.com/*",
+	"http://facebook.com/*",
+	"https://*.facebook.com/*",
+	"https://facebook.com/*"
+  ],
+  "icons": {
+    "16": "icon/icon-16.png",
+    "48": "icon/icon-48.png",
+    "128": "icon/icon-128.png"
+  }
+}

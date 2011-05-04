@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html><head>
+<script src="utils.js"></script>
+<script src="lib/jquery-1.5.2.min.js"></script>
+<script>
+	var currentTabId;
+	var currentTabUrl;
+	var currentAction;
+	
+	var bodyPadding = '7px';
+		
+	// todo: there must be a cleaner way to do all this
+	
+	function addFlickrTitles() {
+		$('#links').hide();
+		currentAction = 'addFlickrTitles';
+		$('#short_input').show(100);
+		$('#short_input').focus();
+		$('#submit').val('Set Titles');
+		$('#submit').show(100);
+		$('body').css('padding', bodyPadding);
+	}
+	function addFlickrDescriptions() {
+		$('#links').hide();
+		currentAction = 'addFlickrDescriptions';
+		$('#long_input').show(100);
+		$('#long_input').focus();
+		$('#submit').val('Set Descriptions');
+		$('#submit').show(100);
+		$('body').css('padding', bodyPadding);
+	}
+	function addFlickrTags() {
+		$('#links').hide();
+		currentAction = 'addFlickrTags';
+		$('#short_input').show(100);
+		$('#short_input').focus();
+		$('#submit').val('Set Tags');
+		$('#submit').show(100);
+		$('body').css('padding', bodyPadding);
+	}
+	function addFacebookDescriptions() {
+		$('#links').hide();
+		currentAction = 'addFacebookDescriptions';
+		$('#long_input').show(100);
+		$('#long_input').focus();
+		$('#submit').val('Set Descriptions');
+		$('#submit').show(100);
+		$('body').css('padding', bodyPadding);
+	}
+	
+	$(function() {
+		$("#submit").click(function(event) {
+			event.preventDefault();
+			
+			var request = new Object;
+			
+			if (currentAction == 'addFlickrTitles') {
+				request.selector = getFlickrTitleSelector();
+				request.value = $('#short_input').val();
+			} else if (currentAction == 'addFlickrDescriptions') {
+				request.selector = getFlickrDescriptionSelector();
+				request.value = $('#long_input').val();
+			} else if (currentAction == 'addFlickrTags') {
+				request.selector = getFlickrTagsSelector();
+				request.value = $('#short_input').val();
+			} else if (currentAction == 'addFacebookDescriptions') {
+				request.selector = getFacebookDescriptionSelector();
+				request.value = $('#long_input').val();
+			}
+			
+			chrome.tabs.sendRequest(currentTabId, request);
+			
+			window.close();
+		});
+		
+		$('#short_input').hide();
+		$('#long_input').hide();
+		$('#submit').hide();
+		$('#flickr-links').hide();
+		$('#facebook-links').hide();
+		
+		chrome.windows.getCurrent( function(window) {
+			chrome.tabs.getSelected(window.id, function(tab) {
+				currentTabId = tab.id;
+				currentTabUrl = tab.url;
+				
+				if (isFlickrUpload(currentTabUrl)) $('#flickr-links').show();
+				if (isFacebookUpload(currentTabUrl)) $('#facebook-links').show();
+			});
+		});
+	});
+</script>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+	#links a {
+		display: block;
+		width: 180px;
+		line-height: 25px;
+		font-size: 14px;
+		padding: 2px 7px;
+		background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#f0f0f0));
+		border-bottom: 1px solid #ddd;
+		color: black;
+		text-decoration: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	#links a:hover { background: #fbfbfb; }
+	#links a:last-child { border-bottom: 0; }
+	#short_input {
+		width: 250px;
+		margin: 0;
+		padding: 2px;
+	}
+	#long_input {
+		font-family: sans-serif;
+		padding: 3px;
+		width: 250px;
+		height: 150px;
+		margin: 0;
+	}
+	#submit {
+		margin: 6px 0 0 0;
+		padding: 2px;
+		
+	}
+	#submit-container {
+		margin: 0;
+		padding: 0;
+		text-align: right;
+	}
+</style>
+</head>
+<body>
+	<form action="">
+		<input type="text" id="short_input">
+		<textarea id="long_input"></textarea>
+		<div id="submit-container"><input type="submit" id="submit"></div>
+	</form>
+	
+	<span id="links">
+		<span id="flickr-links">
+			<a href="#" onclick="addFlickrTitles();">Add Titles</a>
+			<a href="#" onclick="addFlickrDescriptions();">Add Descriptions</a>
+			<a href="#" onclick="addFlickrTags();">Add Tags</a>
+		</span>
+		<span id="facebook-links">
+			<a href="#" onclick="addFacebookDescriptions();">Add Descriptions</a>
+		</span>
+	</span>
+</body>
+</html>
