@@ -4,7 +4,7 @@ PhotoData lets you quickly and easily assign the same title, caption, and tags t
 
 ## Download/Install
 
-[Download the extension from the Chrome store](https://chrome.google.com/webstore/detail/ciemojomefnilhnidpjknolhbefbdoie). (It's free.)
+[Download the extension from the Chrome store](https://chrome.google.com/webstore/detail/mejofmgbmmnanalogjfopdgajmgfpkim). (It's free.)
 
 ## Issues
 
