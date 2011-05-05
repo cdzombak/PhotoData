@@ -17,7 +17,7 @@
 			lastUrlSeen = changeInfo.url;
 		}
 	
-		if (changeInfo.status == 'complete' && isUploadPage(lastUrlSeen)) {
+		if (isUploadPage(lastUrlSeen)) {
 			chrome.tabs.executeScript(tabId, {file: "lib/jquery-1.5.2.min.js"});
 			chrome.tabs.executeScript(tabId, {file: "contentscript.js"});
 			chrome.pageAction.show(tabId);

@@ -1,6 +1,6 @@
 {
   "name": "PhotoData",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sets captions, titles, or tags for all photos in a Flickr or Facebook upload, quickly and easily.",
   "page_action": {
     "default_icon":  "photos.png",
