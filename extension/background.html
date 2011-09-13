@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html><head>
-<script src="utils.js"></script>
+<!DOCTYPE html><html><head>
+<script src="detect.js"></script>
 <script>
-
-	/*
-		todo:
-		* menu.html needs major cleanup (it works, but...)
-		* more flexible get_Selector etc framework
-	*/
-	
 	var lastUrlSeen = '';
 	
 	// Called when the url of a tab changes.
@@ -17,7 +9,7 @@
 			lastUrlSeen = changeInfo.url;
 		}
 	
-		if (isUploadPage(lastUrlSeen)) {
+		if (isEditPage(lastUrlSeen)) {
 			chrome.tabs.executeScript(tabId, {file: "lib/jquery-1.5.2.min.js"});
 			chrome.tabs.executeScript(tabId, {file: "contentscript.js"});
 			chrome.pageAction.show(tabId);
@@ -26,6 +18,5 @@
 
 	// Listen for any changes to the URL of any tab.
 	chrome.tabs.onUpdated.addListener(checkUrl);
-
 </script>
 </head></html>

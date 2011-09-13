@@ -1,78 +1,18 @@
 <!DOCTYPE html>
 <html><head>
-<script src="utils.js"></script>
 <script src="lib/jquery-1.5.2.min.js"></script>
+<script src="detect.js"></script>
 <script>
+	var bodyPadding = '7px';
+	
 	var currentTabId;
 	var currentTabUrl;
-	var currentAction;
 	
-	var bodyPadding = '7px';
-		
-	// todo: there must be a cleaner way to do all this
+	var fieldType;
+	var inputElement;
 	
-	function addFlickrTitles() {
-		$('#links').hide();
-		currentAction = 'addFlickrTitles';
-		$('#short_input').show(100);
-		$('#short_input').focus();
-		$('#submit').val('Set Titles');
-		$('#submit').show(100);
-		$('body').css('padding', bodyPadding);
-	}
-	function addFlickrDescriptions() {
-		$('#links').hide();
-		currentAction = 'addFlickrDescriptions';
-		$('#long_input').show(100);
-		$('#long_input').focus();
-		$('#submit').val('Set Descriptions');
-		$('#submit').show(100);
-		$('body').css('padding', bodyPadding);
-	}
-	function addFlickrTags() {
-		$('#links').hide();
-		currentAction = 'addFlickrTags';
-		$('#short_input').show(100);
-		$('#short_input').focus();
-		$('#submit').val('Set Tags');
-		$('#submit').show(100);
-		$('body').css('padding', bodyPadding);
-	}
-	function addFacebookDescriptions() {
-		$('#links').hide();
-		currentAction = 'addFacebookDescriptions';
-		$('#long_input').show(100);
-		$('#long_input').focus();
-		$('#submit').val('Set Descriptions');
-		$('#submit').show(100);
-		$('body').css('padding', bodyPadding);
-	}
-	
-	$(function() {
-		$("#submit").click(function(event) {
-			event.preventDefault();
-			
-			var request = new Object;
-			
-			if (currentAction == 'addFlickrTitles') {
-				request.selector = getFlickrTitleSelector();
-				request.value = $('#short_input').val();
-			} else if (currentAction == 'addFlickrDescriptions') {
-				request.selector = getFlickrDescriptionSelector();
-				request.value = $('#long_input').val();
-			} else if (currentAction == 'addFlickrTags') {
-				request.selector = getFlickrTagsSelector();
-				request.value = $('#short_input').val();
-			} else if (currentAction == 'addFacebookDescriptions') {
-				request.selector = getFacebookDescriptionSelector();
-				request.value = $('#long_input').val();
-			}
-			
-			chrome.tabs.sendRequest(currentTabId, request);
-			
-			window.close();
-		});
-		
+	// onload initialization:
+	$(document).ready(function() {
 		$('#short_input').hide();
 		$('#long_input').hide();
 		$('#submit').hide();
@@ -84,11 +24,53 @@
 				currentTabId = tab.id;
 				currentTabUrl = tab.url;
 				
-				if (isFlickrUpload(currentTabUrl)) $('#flickr-links').show();
-				if (isFacebookUpload(currentTabUrl)) $('#facebook-links').show();
+				if (isFlickrUrl(currentTabUrl)) $('#flickr-links').show();
+				if (isFacebookUrl(currentTabUrl)) $('#facebook-links').show();
 			});
 		});
+		
+		$("#submit").click(function(event) {
+			event.preventDefault();
+
+			var request = new Object;
+			request.fieldType = fieldType;
+			request.value = inputElement.val();
+
+			chrome.tabs.sendRequest(currentTabId, request);
+
+			window.close();
+		});
 	});
+	
+	function prepForInput(field, submitText) {
+		$('#links').hide();
+		inputElement = field;
+		field.show(100);
+		field.focus();
+		$('#submit').val(submitText);
+		$('#submit').show(100);
+		$('body').css('padding', bodyPadding);
+	}
+	
+	function setFlickrTitles() {
+		prepForInput($('#short_input'), 'Set Titles');
+		fieldType = 'FLICKR_TITLE';
+	}
+	
+	function setFlickrDescriptions() {
+		prepForInput($('#long_input'), 'Set Descriptions');
+		fieldType = 'FLICKR_DESC';
+	}
+	
+	function setFlickrTags() {
+		prepForInput($('#short_input'), 'Set Tags');
+		fieldType = 'FLICKR_TAGS';
+	}
+	
+	function setFacebookDescriptions() {
+		prepForInput($('#long_input'), 'Set Descriptions');
+		fieldType = 'FB_DESC';
+	}
 </script>
 <style type="text/css">
 	body {
@@ -144,12 +126,12 @@
 	
 	<span id="links">
 		<span id="flickr-links">
-			<a href="#" onclick="addFlickrTitles();">Add Titles</a>
-			<a href="#" onclick="addFlickrDescriptions();">Add Descriptions</a>
-			<a href="#" onclick="addFlickrTags();">Add Tags</a>
+			<a href="#" onclick="setFlickrTitles();">Add Titles</a>
+			<a href="#" onclick="setFlickrDescriptions();">Add Descriptions</a>
+			<a href="#" onclick="setFlickrTags();">Add Tags</a>
 		</span>
 		<span id="facebook-links">
-			<a href="#" onclick="addFacebookDescriptions();">Add Descriptions</a>
+			<a href="#" onclick="setFacebookDescriptions();">Add Descriptions</a>
 		</span>
 	</span>
 </body>
