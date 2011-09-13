@@ -1,6 +1,6 @@
 # PhotoData Chrome Extension
 
-PhotoData lets you quickly and easily assign the same title, caption, and tags to all the photos in a Flickr upload. It also lets you assign the same description to all the photos in a Facebook album.
+PhotoData lets you quickly and easily assign the same title, caption, and tags to all the photos in a Flickr upload. It also lets you quickly assign the same description to all the photos in a Facebook album.
 
 ## Download/Install
 
@@ -12,6 +12,7 @@ Please open an issue on [the GitHub issue tracker for this project](https://gith
 
 ## History
 
+* v0.2 fix Facebook interaction (Facebook changed their code, which broke the extension)
 * v0.1 initial release
 
 ## Author
