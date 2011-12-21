@@ -32,7 +32,13 @@ function setFlickrTags(val) {
 }
 
 function setFacebookDescriptions(val) {
-	$('div.photo tr.tallrow input.mentionsHidden').val(val);
-	$('div.photo tr.tallrow textarea').val(val);
-	// that's kinda hacky, but it works! (for now)
+	// support old-style album editing interface
+	$('div#editphotoalbum span.highlighterContent').text(val);
+	$('div#editphotoalbum input.mentionsHidden').val(val);
+	$('div#editphotoalbum textarea').val(val);
+	
+	// support the new uploader (div.fbPhotoBulkEditor)
+	$('div.captionArea span.highlighterContent').text(val);
+	$('div.captionArea input.mentionsHidden').val(val);
+	$('div.captionArea textarea').val(val);
 }

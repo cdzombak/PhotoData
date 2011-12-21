@@ -5,7 +5,10 @@ function isFlickrUrl(url) {
 }
 
 function isFacebookUrl(url) {
-	return url.contains('facebook.com/editphoto.php');
+	// Facebook's new mass photo upload interface is a div.fbPhotoBulkEditor that appears over the current page.
+	// Sadly, it does not have a distinct URL, so to support it we must treat *all* FB pages as potential upload pages.
+	
+	return url.contains('facebook.com/');
 }
 
 function isEditPage(url) {
