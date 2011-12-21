@@ -12,6 +12,7 @@ Please open an issue on [the GitHub issue tracker for this project](https://gith
 
 ## History
 
+* v0.3 add support for Facebook's new photo upload/bulk edit interface
 * v0.2 fix Facebook interaction (Facebook changed their code, which broke the extension)
 * v0.1 initial release
 
